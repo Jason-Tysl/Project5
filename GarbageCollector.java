@@ -3,6 +3,7 @@ import java.util.*;
 class GarbageCollector {
 
     static List<Integer> theGarbageCollector;
+    static int lastPrinted;
 
     // initialize garbage collector
     public static void initializeGC() {
@@ -21,9 +22,10 @@ class GarbageCollector {
 
         // if the variable was initialized, add it to the gc tracker
         if (value.recordVal != null) {
-            int tracker = theGarbageCollector.get(value.recordVal[0]);
+            // System.out.println("take " + value.recordVal[0]);
+            int tracker = theGarbageCollector.get(0);
             tracker++;
-            theGarbageCollector.set(value.recordVal[0], tracker);
+            theGarbageCollector.set(0, tracker);
         }
     }
 
@@ -33,16 +35,16 @@ class GarbageCollector {
 
         // if the variable was initialized, take it to the gc tracker
         if (value.recordVal != null) {
-            int tracker = theGarbageCollector.get(value.recordVal[0]);
+            int tracker = theGarbageCollector.get(0);
             tracker--;
-            theGarbageCollector.set(value.recordVal[0], tracker);
+            theGarbageCollector.set(0, tracker);
         }
     }
 
     public static void checkIfIdIsAtZero(String id) {
         Memory.Value value = Memory.getLocalOrGlobal(id);
         if (value.recordVal != null) {
-            int tracker = theGarbageCollector.get(value.recordVal[0]);
+            int tracker = theGarbageCollector.get(0);
             if (tracker == 0) {
                 printGC(allGarbage());
             }
@@ -51,7 +53,10 @@ class GarbageCollector {
 
     // print the gc
     public static void printGC(int gcCount) {
-        System.out.println("gc:" + gcCount);
+        if (lastPrinted != gcCount) {
+            System.out.println("gc:" + gcCount);
+            lastPrinted = gcCount;
+        }
     }
 
     // replaces theGarbageCollector.size() to account for all Garbage instances
@@ -70,6 +75,7 @@ class GarbageCollector {
         int totalSize = allGarbage();
         while (totalSize > 0) {
             totalSize--;
+            // System.out.print("eofP ");
             printGC(totalSize);
         }
     }

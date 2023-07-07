@@ -152,6 +152,11 @@ class Memory {
 			 Value v2 = new Value(Core.RECORD);
 			 v2.recordVal = v1.recordVal;
 			 frame.peek().put(formals.get(i), v2);
+
+			 // check if the function calls a record, and add it to the GC
+			 if (getLocalOrGlobal(arguments.get(i)).type == Core.RECORD) {
+				GarbageCollector.addVarToGC(arguments.get(i));
+			 }
 		 }
 		 
 		 local.push(frame);
@@ -163,8 +168,8 @@ class Memory {
 		 local.pop();
 	 }
 
-	 // erase local id's count
-	 public static void takeLocalIdGC() {
+	 // erase local id's count in function call
+	 public static void takeLocalIdGCFunc() {
 		Stack<HashMap<String, Value>> localScope = local.peek();
 		for (int i = 0; i < localScope.size(); i++) {
 			for (String id : localScope.peek().keySet()) {
@@ -179,5 +184,23 @@ class Memory {
 		}
 	 }
 	 
+
+	 // erase local id's count in loop or if
+	 public static void takeLocalIdGCLoopOrIf() {
+
+		// PRELIM THIS MUST BE CHANGED
+		Stack<HashMap<String, Value>> localScope = local.peek();
+		for (int i = 0; i < localScope.size(); i++) {
+			for (String id : localScope.peek().keySet()) {
+				Value value = getLocalOrGlobal(id);
+				if (value != null) {
+					if (value.type == Core.RECORD) {
+						GarbageCollector.takeVarFromGC(id);
+						GarbageCollector.checkIfIdIsAtZero(id);
+					}
+				}
+			}
+		}
+	 }
 	 
 }

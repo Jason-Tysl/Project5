@@ -48,7 +48,7 @@ class Procedure {
 		
 		ss.execute();
 		
-		Memory.takeLocalIdGC();
+		Memory.takeLocalIdGCFunc();
 
 		Memory.popFrame();
 

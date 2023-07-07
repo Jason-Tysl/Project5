@@ -26,6 +26,7 @@ class Call implements Stmt {
 	
 	public void execute() {
 		Memory.pushFrameAndExecute(name, param);
+		Memory.takeLocalIdGCFunc();
 		Memory.popFrame();
 		
 	}

@@ -84,7 +84,7 @@ class Assign implements Stmt {
 			Memory.allocate(assignTo.getString(), index.execute());
 			GarbageCollector.allocateGC();
 			GarbageCollector.printGC(GarbageCollector.allGarbage());
-		}else if (type == 3) {
+		} else if (type == 3) {
 			Memory.alias(assignTo.getString(), assignFrom.getString());
 			handleGarbageCollectionTrackingAlias();
 		}
