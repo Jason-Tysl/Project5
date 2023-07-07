@@ -189,17 +189,18 @@ class Memory {
 	 public static void takeLocalIdGCLoopOrIf() {
 
 		// PRELIM THIS MUST BE CHANGED
-		Stack<HashMap<String, Value>> localScope = local.peek();
-		for (int i = 0; i < localScope.size(); i++) {
-			for (String id : localScope.peek().keySet()) {
-				Value value = getLocalOrGlobal(id);
-				if (value != null) {
-					if (value.type == Core.RECORD) {
-						GarbageCollector.takeVarFromGC(id);
-						GarbageCollector.checkIfIdIsAtZero(id);
-					}
+		HashMap<String, Value> localVars = local.peek().peek();
+		for (String id : localVars.keySet()) {
+			
+			Value value = getLocalOrGlobal(id);
+			if (value != null) {
+				if (value.type == Core.RECORD) {
+					System.out.print("takingLoopOrIf ");
+					GarbageCollector.takeVarFromGC(id);
+					GarbageCollector.checkIfIdIsAtZero(id);
 				}
 			}
+			
 		}
 	 }
 	 
