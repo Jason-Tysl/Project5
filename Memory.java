@@ -162,6 +162,22 @@ class Memory {
 	 public static void popFrame() {
 		 local.pop();
 	 }
+
+	 // erase local id's count
+	 public static void takeLocalIdGC() {
+		Stack<HashMap<String, Value>> localScope = local.peek();
+		for (int i = 0; i < localScope.size(); i++) {
+			for (String id : localScope.peek().keySet()) {
+				Value value = getLocalOrGlobal(id);
+				if (value != null) {
+					if (value.type == Core.RECORD) {
+						GarbageCollector.takeVarFromGC(id);
+						GarbageCollector.printGC();
+					}
+				}
+			}
+		}
+	 }
 	 
 	 
 }

@@ -48,6 +48,10 @@ class Procedure {
 		
 		ss.execute();
 		
+		Memory.takeLocalIdGC();
+
 		Memory.popFrame();
+
+		GarbageCollector.endOfProcedure();
 	}
 }

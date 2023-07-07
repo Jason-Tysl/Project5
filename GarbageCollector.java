@@ -43,4 +43,13 @@ class GarbageCollector {
     public static void printGC() {
         System.out.println("gc:" + theGarbageCollector.size());
     }
+
+    // handle printing down the list until you hit 0
+    public static void endOfProcedure() {
+        int totalSize = theGarbageCollector.size();
+        while (totalSize > 0) {
+            totalSize--;
+            printGC();
+        }
+    }
 }
