@@ -47,10 +47,12 @@ class If implements Stmt {
 		if (cond.execute()) {
 			Memory.pushScope();
 			ss1.execute();
+			Memory.takeLocalIdGCLoopOrIf();
 			Memory.popScope();
 		} else if (ss2 != null) {
 			Memory.pushScope();
 			ss2.execute();
+			Memory.takeLocalIdGCLoopOrIf();
 			Memory.popScope();
 		}
 	}

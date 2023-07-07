@@ -34,6 +34,7 @@ class Loop implements Stmt {
 		while (cond.execute()) {
 			Memory.pushScope();
 			ss.execute();
+			Memory.takeLocalIdGCLoopOrIf();
 			Memory.popScope();
 		}
 	}
