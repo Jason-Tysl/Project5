@@ -31,7 +31,7 @@ class GarbageCollector {
     public static void takeVarFromGC(String id) {
         Memory.Value value = Memory.getLocalOrGlobal(id);
 
-        // if the variable was initialized, add it to the gc tracker
+        // if the variable was initialized, take it to the gc tracker
         if (value.recordVal != null) {
             int tracker = theGarbageCollector.get(value.recordVal[0]);
             tracker--;
@@ -39,17 +39,38 @@ class GarbageCollector {
         }
     }
 
+    public static void checkIfIdIsAtZero(String id) {
+        Memory.Value value = Memory.getLocalOrGlobal(id);
+        if (value.recordVal != null) {
+            int tracker = theGarbageCollector.get(value.recordVal[0]);
+            if (tracker == 0) {
+                printGC(allGarbage());
+            }
+        }
+    }
+
     // print the gc
-    public static void printGC() {
-        System.out.println("gc:" + theGarbageCollector.size());
+    public static void printGC(int gcCount) {
+        System.out.println("gc:" + gcCount);
+    }
+
+    // replaces theGarbageCollector.size() to account for all Garbage instances
+    public static int allGarbage() {
+        int sum = 0;
+        for (int tracker: theGarbageCollector) {
+            if (tracker != 0) {
+                sum++;
+            }
+        }
+        return sum;
     }
 
     // handle printing down the list until you hit 0
     public static void endOfProcedure() {
-        int totalSize = theGarbageCollector.size();
+        int totalSize = allGarbage();
         while (totalSize > 0) {
             totalSize--;
-            printGC();
+            printGC(totalSize);
         }
     }
 }

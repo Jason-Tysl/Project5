@@ -172,7 +172,7 @@ class Memory {
 				if (value != null) {
 					if (value.type == Core.RECORD) {
 						GarbageCollector.takeVarFromGC(id);
-						GarbageCollector.printGC();
+						GarbageCollector.checkIfIdIsAtZero(id);
 					}
 				}
 			}
