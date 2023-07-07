@@ -82,8 +82,22 @@ class Assign implements Stmt {
 			Memory.store(assignTo.getString(), index.execute(), expr.execute());
 		} else if (type == 2) {
 			Memory.allocate(assignTo.getString(), index.execute());
+			GarbageCollector.allocateGC();
+			GarbageCollector.printGC();
 		}else if (type == 3) {
 			Memory.alias(assignTo.getString(), assignFrom.getString());
+			
+			handleGarbageCollectionTracking();
 		}
+	}
+
+	// if the assignTo variable is not null subtract it, then add it to the GC
+	private void handleGarbageCollectionTracking() {
+		Memory.Value value = Memory.getLocalOrGlobal(assignTo.getString());
+		if (value.recordVal != null) {
+			GarbageCollector.takeVarFromGC(assignTo.getString());
+		}
+		GarbageCollector.addVarToGC(assignTo.getString());
+		GarbageCollector.printGC();
 	}
 }

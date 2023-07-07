@@ -1,4 +1,4 @@
-procedure t5 and
+procedure t5 is
 	procedure A(x) is
 		record y;
 		y := new record[1]; 

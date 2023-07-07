@@ -26,6 +26,7 @@ class Memory {
 	public static void initializeGlobal() {
 		global = new HashMap<String, Value>();
 		funcMap = new HashMap<String, Function>();
+		GarbageCollector.initializeGC();
 	}
 	
 	// Initializes the local data structure
@@ -114,7 +115,7 @@ class Memory {
 	}
 	
 	// Looks up value of the variables, searches local then global
-	private static Value getLocalOrGlobal(String id) {
+	public static Value getLocalOrGlobal(String id) {
 		Value result;
 		if (local.peek().size() > 0) {
 			if (local.peek().peek().containsKey(id)) {
