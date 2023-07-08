@@ -22,7 +22,6 @@ class GarbageCollector {
 
         // if the variable was initialized, add it to the gc tracker
         if (value.recordVal != null) {
-            // System.out.println("take " + value.recordVal[0]);
             int tracker = theGarbageCollector.get(0);
             tracker++;
             theGarbageCollector.set(0, tracker);
@@ -41,6 +40,7 @@ class GarbageCollector {
         }
     }
 
+    // check if the the given id's tracker has reached 0 and print if so
     public static void checkIfIdIsAtZero(String id) {
         Memory.Value value = Memory.getLocalOrGlobal(id);
         if (value.recordVal != null) {
@@ -63,7 +63,7 @@ class GarbageCollector {
     public static int allGarbage() {
         int sum = 0;
         for (int tracker: theGarbageCollector) {
-            if (tracker != 0) {
+            if (tracker > 0) {
                 sum++;
             }
         }
@@ -75,7 +75,6 @@ class GarbageCollector {
         int totalSize = allGarbage();
         while (totalSize > 0) {
             totalSize--;
-            // System.out.print("eofP ");
             printGC(totalSize);
         }
     }

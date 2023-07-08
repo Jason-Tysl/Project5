@@ -3,7 +3,7 @@ class Main {
 		// Initialize the scanner with the input file
 		// Scanner S = new Scanner(args[0]);
 
-		Scanner S = new Scanner("Correct/7.code");
+		Scanner S = new Scanner("Correct/10.code");
 		Parser.scanner = S;
 		
 		Procedure p = new Procedure();

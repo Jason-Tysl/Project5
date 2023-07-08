@@ -173,12 +173,10 @@ class Memory {
 		Stack<HashMap<String, Value>> localScope = local.peek();
 		for (int i = 0; i < localScope.size(); i++) {
 			for (String id : localScope.peek().keySet()) {
-				Value value = getLocalOrGlobal(id);
-				if (value != null) {
-					if (value.type == Core.RECORD) {
-						GarbageCollector.takeVarFromGC(id);
-						GarbageCollector.checkIfIdIsAtZero(id);
-					}
+				Core valueType = getLocalOrGlobal(id).type;
+				if (valueType == Core.RECORD) {
+					GarbageCollector.takeVarFromGC(id);
+					GarbageCollector.checkIfIdIsAtZero(id);
 				}
 			}
 		}
@@ -188,19 +186,13 @@ class Memory {
 	 // erase local id's count in loop or if
 	 public static void takeLocalIdGCLoopOrIf() {
 
-		// PRELIM THIS MUST BE CHANGED
 		HashMap<String, Value> localVars = local.peek().peek();
 		for (String id : localVars.keySet()) {
-			
-			Value value = getLocalOrGlobal(id);
-			if (value != null) {
-				if (value.type == Core.RECORD) {
-					System.out.print("takingLoopOrIf ");
-					GarbageCollector.takeVarFromGC(id);
-					GarbageCollector.checkIfIdIsAtZero(id);
-				}
+			Core valueType = getLocalOrGlobal(id).type;
+			if (valueType == Core.RECORD) {
+				GarbageCollector.takeVarFromGC(id);
+				GarbageCollector.checkIfIdIsAtZero(id);
 			}
-			
 		}
 	 }
 	 

@@ -1,3 +1,5 @@
+import java.util.concurrent.Executor;
+
 class Assign implements Stmt {
 	// type is
 	// 0 if id := <expr> assignment
@@ -83,7 +85,7 @@ class Assign implements Stmt {
 		} else if (type == 2) {
 			Memory.allocate(assignTo.getString(), index.execute());
 			GarbageCollector.allocateGC();
-			GarbageCollector.printGC(GarbageCollector.allGarbage());
+			GarbageCollector.printGC(GarbageCollector.allGarbage());		
 		} else if (type == 3) {
 			Memory.alias(assignTo.getString(), assignFrom.getString());
 			handleGarbageCollectionTrackingAlias();
